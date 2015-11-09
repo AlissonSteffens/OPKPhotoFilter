@@ -6,6 +6,7 @@
 package veiw;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -40,6 +41,7 @@ public class SpliteImage extends JSplitPane{
         String lado;
         public CustomPanel(String lado) {
             super();
+            this.setMinimumSize(new Dimension(5, 0));
             this.lado=lado;
             if(lado.equals("esquerda"))
             {
@@ -54,7 +56,6 @@ public class SpliteImage extends JSplitPane{
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D gd2 = (Graphics2D) g;
-            gd2.setColor(Color.red);
 
             if(lado.equals("esquerda"))
             {
