@@ -5,7 +5,7 @@
  */
 package br.univali.veiw;
 
-import br.univali.model.Effect;
+import br.univali.model.EffectComposit;
 import com.alee.laf.WebLookAndFeel;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,7 +20,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import br.univali.model.ImageFile;
-import javax.swing.plaf.basic.BasicListUI;
+import br.univali.model.Processador;
+import br.univali.model.ProcessadorListener;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -28,55 +30,55 @@ import javax.swing.plaf.basic.BasicListUI;
  */
 public class UI extends javax.swing.JFrame {
 
+    Loading loading = new Loading();
+    EffectComposit composit = new EffectComposit();
     /**
      * Creates new form UI
      */
     public UI() {
         initComponents();
-        DefaultListModel listModel= new DefaultListModel();
+        setGlassPane(loading);
+        DefaultListModel listModel = new DefaultListModel();
         applyedEffectsList.setModel(listModel);
         BufferedImage imageOld;
         BufferedImage imageNew;
-        spliteImage1.setDividerLocation(spliteImage1.getWidth()/2);
+        spliteImage1.setDividerLocation(spliteImage1.getWidth() / 2);
         try {
             imageOld = ImageIO.read(new File("./src/br/univali/resources/img1.jpg"));
             imageNew = ImageIO.read(new File("./src/br/univali/resources/img2.png"));
             spliteImage1.setImages(imageOld, imageNew);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         applyedEffectsList.addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(applyedEffectsList.getSelectedValue()!= null){
-                    DefaultListModel listModel = (DefaultListModel) applyedEffectsList.getModel();
-                    listModel.remove(applyedEffectsList.getSelectedIndex());
+                if (applyedEffectsList.getSelectedValue() != null) {
+                    composit.removeEffect(applyedEffectsList.getSelectedIndex());
+                    atualizarApplyedList();
                     applyedEffectsList.clearSelection();
                     atualizarFiltros();
                 }
             }
         });
-        
+
         effectList1.addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(effectList1.getSelectedValue()!=null)
-                {
-                    DefaultListModel listModel1 = (DefaultListModel) applyedEffectsList.getModel();
-                    listModel1.addElement(effectList1.getSelectedValue());
-                    applyedEffectsList.setModel(listModel1);
+                if (effectList1.getSelectedValue() != null) {
+                    composit.addEffect(effectList1.getSelectedValue()); 
+                    atualizarApplyedList();
                     atualizarFiltros();
+                    effectList1.clearSelection();
                 }
-               
+
             }
         });
-        
-        
-        
+
         listaImagens.addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -84,34 +86,59 @@ public class UI extends javax.swing.JFrame {
                 try {
                     BufferedImage imageOld;
                     BufferedImage imageNew;
-                    File file= (File) listaImagens.getSelectedValue();
+                    File file = (File) listaImagens.getSelectedValue();
                     imageOld = ImageIO.read(file);
                     imageNew = ImageIO.read(file);
                     spliteImage1.setImages(imageOld, imageNew);
-                    setTitle("Omega Power & Knuckles Photo Filter | "+file.getAbsolutePath());
+                    setTitle("Omega Power & Knuckles Photo Filter | " + file.getAbsolutePath());
                     atualizarFiltros();
                 } catch (IOException ex) {
                     Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-                
+
         botaoEscolherPasta.doClick();
     }
-    
-    private void atualizarFiltros(){
-        DefaultListModel listModel = (DefaultListModel) applyedEffectsList.getModel();
+
+    private void atualizarFiltros() {
+        
         BufferedImage imageOld = spliteImage1.getImageOld();
-        BufferedImage imageNew = spliteImage1.getImageOld();
         imageOld = spliteImage1.getImageOld();
-        for(int i=0; i<listModel.getSize(); i++)
-        {
-            Effect effect = (Effect) listModel.get(i);
-            imageNew = effect.apply(imageNew);
-        }
-        spliteImage1.setImages(imageOld, imageNew);
-        effectList1.clearSelection();
+        ProcessadorListener listener = new ProcessadorListener() {
+
+            @Override
+            public void processamentoIniciado() {
+                loading.setVisible(true);
+            }
+
+            @Override
+            public void processamentoFinalizado(BufferedImage imageOld, BufferedImage imageNew) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        spliteImage1.setImages(imageOld, imageNew);
+                        loading.setVisible(false);
+                    }
+                });
+            }
+
+        };
+        
+        DefaultListModel listModel = (DefaultListModel) applyedEffectsList.getModel();
+                
+        Processador processador = new Processador(imageOld, ViewAdapter.modelToList(listModel), listener);
+        processador.processa();
     }
+    
+    private void atualizarApplyedList(){
+        DefaultListModel listModel = new DefaultListModel();
+        for(int i=0; i<composit.numberOfEffects();i++){
+            listModel.addElement(composit.get(i));
+        }
+        applyedEffectsList.setModel(listModel);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -158,10 +185,8 @@ public class UI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 59, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,10 +268,10 @@ public class UI extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spliteImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                            .addComponent(spliteImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -275,16 +300,16 @@ public class UI extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.addChoosableFileFilter(new DirectoryFileFilter());
         int retorno = chooser.showOpenDialog(this);
-        if(retorno == JFileChooser.APPROVE_OPTION){
+        if (retorno == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-            if(file.isDirectory()){
+            if (file.isDirectory()) {
                 File[] files = file.listFiles(new FilenameFilter() {
 
                     @Override
                     public boolean accept(File dir, String name) {
                         String extenssion;
-                        extenssion = name.substring(name.length()-3);
-                        if(extenssion.equals("jpg") || extenssion.equals("png") || extenssion.equals("gif")){
+                        extenssion = name.substring(name.length() - 3);
+                        if (extenssion.equals("jpg") || extenssion.equals("png") || extenssion.equals("gif")) {
                             return true;
                         }
                         return false;
@@ -298,8 +323,7 @@ public class UI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_botaoEscolherPastaActionPerformed
-    
-    
+
     /**
      * @param args the command line arguments
      */
