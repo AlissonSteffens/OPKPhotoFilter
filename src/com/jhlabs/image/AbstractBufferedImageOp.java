@@ -24,7 +24,7 @@ import java.awt.image.*;
  * A convenience class which implements those methods of BufferedImageOp which are rarely changed.
  */
 public abstract class AbstractBufferedImageOp implements BufferedImageOp, Cloneable {
-
+    
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel dstCM) {
         if ( dstCM == null )
             dstCM = src.getColorModel();

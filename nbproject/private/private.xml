@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/5663296.UNIVALI/Documents/NetBeansProjects/OPKPhotoFilter/src/veiw/UI.java</file>
-            <file>file:/C:/Users/5663296.UNIVALI/Documents/NetBeansProjects/OPKPhotoFilter/src/veiw/SpliteImage.java</file>
-            <file>file:/C:/Users/5663296.UNIVALI/Documents/NetBeansProjects/OPKPhotoFilter/src/model/ImageFile.java</file>
+            <file>file:/C:/Users/Alisson/Documents/GitHub/OPKPhotoFilter/src/br/univali/model/Effect.java</file>
+            <file>file:/C:/Users/Alisson/Documents/GitHub/OPKPhotoFilter/src/com/jhlabs/image/DissolveFilter.java</file>
+            <file>file:/C:/Users/Alisson/Documents/GitHub/OPKPhotoFilter/src/br/univali/veiw/SpliteImage.java</file>
+            <file>file:/C:/Users/Alisson/Documents/GitHub/OPKPhotoFilter/src/br/univali/veiw/EffectList.java</file>
+            <file>file:/C:/Users/Alisson/Documents/GitHub/OPKPhotoFilter/src/com/jhlabs/image/CausticsFilter.java</file>
+            <file>file:/C:/Users/Alisson/Documents/GitHub/OPKPhotoFilter/src/br/univali/veiw/EffectListRender.java</file>
+            <file>file:/C:/Users/Alisson/Documents/GitHub/OPKPhotoFilter/src/br/univali/veiw/UI.java</file>
         </group>
     </open-files>
 </project-private>
