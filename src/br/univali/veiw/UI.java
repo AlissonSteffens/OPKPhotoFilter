@@ -100,18 +100,18 @@ public class UI extends javax.swing.JFrame {
     }
     
     private void atualizarFiltros(){
-            DefaultListModel listModel = (DefaultListModel) applyedEffectsList.getModel();
-            BufferedImage imageOld = spliteImage1.getImageOld();
-            BufferedImage imageNew = spliteImage1.getImageOld();
-            imageOld = spliteImage1.getImageOld();
-            for(int i=0; i<listModel.getSize(); i++)
-            {
-                Effect effect = (Effect) listModel.get(i);
-                imageNew = effect.apply(imageNew);
-            }
-            spliteImage1.setImages(imageOld, imageNew);
-            effectList1.clearSelection();
+        DefaultListModel listModel = (DefaultListModel) applyedEffectsList.getModel();
+        BufferedImage imageOld = spliteImage1.getImageOld();
+        BufferedImage imageNew = spliteImage1.getImageOld();
+        imageOld = spliteImage1.getImageOld();
+        for(int i=0; i<listModel.getSize(); i++)
+        {
+            Effect effect = (Effect) listModel.get(i);
+            imageNew = effect.apply(imageNew);
         }
+        spliteImage1.setImages(imageOld, imageNew);
+        effectList1.clearSelection();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,6 +145,9 @@ public class UI extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        applyedEffectsList.setMaximumSize(new java.awt.Dimension(150, 80));
+        applyedEffectsList.setMinimumSize(new java.awt.Dimension(150, 80));
+        applyedEffectsList.setPreferredSize(new java.awt.Dimension(150, 80));
         jScrollPane1.setViewportView(applyedEffectsList);
 
         jLabel1.setText("Filtros Aplicados");
@@ -153,10 +156,12 @@ public class UI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,10 +243,10 @@ public class UI extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spliteImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4))
+                            .addComponent(spliteImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -256,7 +261,7 @@ public class UI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(spliteImage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );

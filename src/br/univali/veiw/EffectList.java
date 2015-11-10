@@ -19,6 +19,7 @@ import com.jhlabs.image.InvertFilter;
 import com.jhlabs.image.LensBlurFilter;
 import com.jhlabs.image.MaskFilter;
 import com.jhlabs.image.SolarizeFilter;
+import com.jhlabs.image.TileImageFilter;
 import com.jhlabs.image.TritoneFilter;
 import java.awt.Dimension;
 import javax.swing.DefaultListModel;
