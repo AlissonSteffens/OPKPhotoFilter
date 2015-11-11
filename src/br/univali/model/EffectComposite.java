@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author 5663296
  */
-public class EffectComposit implements Effect{
+public class EffectComposite implements Effect{
     
     private List<Effect> effects = new ArrayList<>();
     

@@ -6,24 +6,24 @@
 package br.univali.effects;
 
 import br.univali.model.Effect;
-import com.jhlabs.image.EdgeFilter;
+import com.jhlabs.image.CrystallizeFilter;
 import java.awt.image.BufferedImage;
 
 /**
  *
- * @author 5663296
+ * @author Alisson
  */
-public class EdgeEffect implements Effect{
+public class CrystallizeEffect implements Effect{
 
     @Override
     public BufferedImage apply(BufferedImage bufferedImage) {
         BufferedImage image = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
-        return new EdgeFilter().filter(bufferedImage, image);
+        return new CrystallizeFilter().filter(bufferedImage, image);
     }
 
     @Override
     public String toString() {
-        return "Edge";
+        return "Crystallize";
     }
     
 }

@@ -18,31 +18,37 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.border.LineBorder;
 
 /**
  *
  * @author Alisson
  */
 public class EffectListRender extends DefaultListCellRenderer{
+    
+    BufferedImage image;
+    
+    public EffectListRender() {
+        try {
+            image = ImageIO.read(new File("./src/br/univali/resources/flor.jpg"));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(EffectListRender.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     
     
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         JLabel component = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+        component.setHorizontalTextPosition(JLabel.CENTER);
+        component.setVerticalTextPosition(JLabel.BOTTOM);
+        component.setHorizontalAlignment(JLabel.CENTER);
+        component.setVerticalAlignment(JLabel.CENTER);
         Effect effect = (Effect) value;
-        try {
-            BufferedImage image = ImageIO.read(new File("./src/br/univali/resources/flor.jpg"));
-            component.setIcon(new ImageIcon(effect.apply(image)));
-        } catch (IOException ex) {
-            Logger.getLogger(EffectListRender.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        component.setIcon(new ImageIcon(effect.apply(image)));
         
         
-        if(isSelected){
-            component.setBorder(new LineBorder(Color.DARK_GRAY));
-        }
         
         return component;
     }

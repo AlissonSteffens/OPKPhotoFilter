@@ -5,10 +5,13 @@
  */
 package br.univali.veiw;
 
-import br.univali.effects.EdgeEffect;
-import br.univali.effects.InvertEffect;
-import br.univali.effects.SunshineEffect;
 import br.univali.model.Effect;
+import br.univali.reflection.PackageClassesGetter;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -24,10 +27,20 @@ public class EffectList extends JList<Effect>{
         this.setCellRenderer(new EffectListRender());
         DefaultListModel defaultListModel= new DefaultListModel();
         
-        defaultListModel.addElement(new InvertEffect());
-        defaultListModel.addElement(new EdgeEffect());
-        defaultListModel.addElement(new SunshineEffect());
-        
+        try {
+            Class<Effect>[] classes = PackageClassesGetter.getClasses("br.univali.effects");
+            for (Class<Effect> classe : classes) {
+                try {
+                    Constructor<Effect> constructor = classe.getConstructor();
+                    Effect newInstance = constructor.newInstance();
+                    defaultListModel.addElement(newInstance);
+                } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    Logger.getLogger(EffectList.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (ClassNotFoundException | IOException ex) {
+            Logger.getLogger(EffectList.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         this.setModel(defaultListModel);
     }
