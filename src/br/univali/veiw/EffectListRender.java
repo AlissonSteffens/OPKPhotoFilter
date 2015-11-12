@@ -8,6 +8,7 @@ package br.univali.veiw;
 import br.univali.model.Effect;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -47,8 +49,7 @@ public class EffectListRender extends DefaultListCellRenderer{
         component.setVerticalAlignment(JLabel.CENTER);
         Effect effect = (Effect) value;
         component.setIcon(new ImageIcon(effect.apply(image)));
-        
-        
+        component.setBorder(new EmptyBorder(4,4,4,4));
         
         return component;
     }

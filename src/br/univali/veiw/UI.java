@@ -102,7 +102,6 @@ public class UI extends javax.swing.JFrame {
         });
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
         jMenuItem1.doClick();
         spliteImage1.setDividerLocation(0.5);
         spliteImage1.invalidate();
@@ -161,6 +160,7 @@ public class UI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         applyedEffectsList = new javax.swing.JList();
@@ -169,11 +169,12 @@ public class UI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listaImagens = new javax.swing.JList();
+        jPanel3 = new javax.swing.JPanel();
         spliteImage1 = new br.univali.veiw.SpliteImage();
         jScrollPane4 = new javax.swing.JScrollPane();
         effectList1 = new br.univali.veiw.EffectList();
         jMenuBar1 = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -186,6 +187,11 @@ public class UI extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.GridLayout(1, 1));
 
         jPanel2.setBackground(new java.awt.Color(38, 38, 38));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jPanel2.setLayout(new java.awt.BorderLayout(10, 0));
+
+        jSplitPane1.setDividerLocation(400);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         jPanel1.setBackground(new java.awt.Color(50, 50, 50));
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(75, 75, 75), 2, true), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
@@ -212,6 +218,8 @@ public class UI extends javax.swing.JFrame {
         jLabel1.setOpaque(true);
         jLabel1.setPreferredSize(new java.awt.Dimension(77, 30));
         jPanel1.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+
+        jSplitPane1.setRightComponent(jPanel1);
 
         jPanel4.setBackground(new java.awt.Color(50, 50, 50));
         jPanel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(75, 75, 75), 2, true), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
@@ -240,87 +248,65 @@ public class UI extends javax.swing.JFrame {
 
         jPanel4.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
+        jSplitPane1.setLeftComponent(jPanel4);
+
+        jPanel2.add(jSplitPane1, java.awt.BorderLayout.WEST);
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new java.awt.BorderLayout(0, 10));
+
         spliteImage1.setBackground(new java.awt.Color(50, 50, 50));
+        spliteImage1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(75, 75, 75), 2, true));
         spliteImage1.setResizeWeight(0.5);
         spliteImage1.setOpaque(false);
+        jPanel3.add(spliteImage1, java.awt.BorderLayout.CENTER);
 
-        jScrollPane4.setBorder(null);
+        jScrollPane4.setBackground(new java.awt.Color(50, 50, 50));
+        jScrollPane4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(75, 75, 75), 2, true));
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(12, 120));
 
         effectList1.setBackground(new java.awt.Color(50, 50, 50));
-        effectList1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(75, 75, 75), 2, true));
+        effectList1.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
         effectList1.setForeground(new java.awt.Color(255, 255, 255));
-        effectList1.setFixedCellHeight(75);
-        effectList1.setFixedCellWidth(70);
+        effectList1.setFixedCellHeight(90);
+        effectList1.setFixedCellWidth(90);
         jScrollPane4.setViewportView(effectList1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 536, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(spliteImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(spliteImage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap()))
-        );
+        jPanel3.add(jScrollPane4, java.awt.BorderLayout.SOUTH);
+
+        jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2);
 
-        jMenuBar1.setBackground(new java.awt.Color(50, 50, 50));
-        jMenuBar1.setBorder(null);
-        jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuBar1.setBorderPainted(false);
-        jMenuBar1.setMargin(new java.awt.Insets(4, 4, 4, 4));
-        jMenuBar1.setOpaque(false);
-
-        fileMenu.setText("Arquivo");
+        jMenu1.setText("Arquivo");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Abri Pasta");
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/univali/resources/menus/abrir.png"))); // NOI18N
+        jMenuItem1.setText("Abrir Pasta");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem1);
-        fileMenu.add(jSeparator1);
+        jMenu1.add(jMenuItem1);
+        jMenu1.add(jSeparator1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/univali/resources/menus/salvar.png"))); // NOI18N
         jMenuItem2.setText("Salvar Imagem");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem2);
+        jMenu1.add(jMenuItem2);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/univali/resources/menus/salvar_lote.png"))); // NOI18N
         jMenuItem3.setText("Salvar Lote");
-        fileMenu.add(jMenuItem3);
+        jMenu1.add(jMenuItem3);
 
-        jMenuBar1.add(fileMenu);
+        jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Editar");
         jMenuBar1.add(jMenu2);
@@ -344,8 +330,12 @@ public class UI extends javax.swing.JFrame {
                     @Override
                     public boolean accept(File dir, String name) {
                         String extenssion;
-                        extenssion = name.substring(name.length() - 3);
-                        return extenssion.equals("jpg") || extenssion.equals("png") || extenssion.equals("gif");
+                        if(name.length()>=4)
+                        {
+                            extenssion = name.substring(name.length() - 3);
+                            return extenssion.equals("jpg") || extenssion.equals("png") || extenssion.equals("gif");
+                        }
+                        return false;
                     }
                 });
                 DefaultListModel<File> model = new DefaultListModel<>();
@@ -358,7 +348,22 @@ public class UI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.showSaveDialog(this);
+        File file = chooser.getSelectedFile();
+        BufferedImage bi = spliteImage1.getImageNew();
+        /***Magica muito loka (não mexer nesta parte do código)
+        /*It's Magic, I ain't explain shit
+         */
+        String ext = listaImagens.getSelectedValue().toString();
+        ext = ext.substring(ext.length() - 3);
+        String f = file.toString()+"."+ext;
+        file = new File(f);
+        try {
+            ImageIO.write(bi, ext, file);
+        } catch (IOException ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
@@ -383,9 +388,9 @@ public class UI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList applyedEffectsList;
     private br.univali.veiw.EffectList effectList1;
-    private javax.swing.JMenu fileMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -393,11 +398,13 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JList listaImagens;
     private br.univali.veiw.SpliteImage spliteImage1;
     // End of variables declaration//GEN-END:variables
