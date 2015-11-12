@@ -7,6 +7,7 @@ package br.univali.reflection;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -24,18 +25,23 @@ public class PackageClassesGetter {
  * @return The classes
  * @throws ClassNotFoundException
  * @throws IOException
+     * @throws java.net.URISyntaxException
  */
-public static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
+public static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException, URISyntaxException {
+    
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     assert classLoader != null;
     String path = packageName.replace('.', '/');
     Enumeration<URL> resources = classLoader.getResources(path);
-    List<File> dirs = new ArrayList<File>();
+    List<File> dirs = new ArrayList<>();
     while (resources.hasMoreElements()) {
         URL resource = resources.nextElement();
-        dirs.add(new File(resource.getFile()));
+//        dirs.add(new File(resource.getFile()));
+        File f = new File(resource.toURI());
+        dirs.add(f);
+        
     }
-    ArrayList<Class> classes = new ArrayList<Class>();
+    ArrayList<Class> classes = new ArrayList<>();
     for (File directory : dirs) {
         classes.addAll(findClasses(directory, packageName));
     }
