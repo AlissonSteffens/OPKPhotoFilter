@@ -12,22 +12,22 @@ import java.util.List;
  *
  * @author 5663296
  */
-public class Processador {
+public class ImageEffectProcessor {
 
     BufferedImage imgOriginal;
     BufferedImage imgDestino;
     List<Effect> filtros;
 
-    private ProcessadorListener listener;
+    private ImageEffectProcessorListener listener;
 
-    public Processador(BufferedImage imgOriginal, List<Effect> filtros, ProcessadorListener listener) {
+    public ImageEffectProcessor(BufferedImage imgOriginal, List<Effect> filtros, ImageEffectProcessorListener listener) {
         this.imgOriginal = imgOriginal;
         this.imgDestino = imgOriginal;
         this.filtros = filtros;
         this.listener = listener;
     }
 
-    public void processa() {
+    public void run() {
         Runnable tarefaDeProcessamento = new Runnable() {
 
             @Override

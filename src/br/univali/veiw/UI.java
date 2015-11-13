@@ -20,8 +20,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import br.univali.model.ImageFile;
-import br.univali.model.Processador;
-import br.univali.model.ProcessadorListener;
+import br.univali.model.ImageEffectProcessor;
+import br.univali.model.ImageEffectProcessorListener;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -82,16 +82,16 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        listaImagens.addListSelectionListener(new ListSelectionListener() {
+        imagesList.addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 try {
                     BufferedImage imageOld;
                     BufferedImage imageNew;
-                    File file = (File) listaImagens.getSelectedValue();
+                    File file = (File) imagesList.getSelectedValue();
                     imageOld = ImageIO.read(file);
-                    imageNew = ImageIO.read(file);
+                    imageNew = imageOld;
                     spliteImage1.setImages(imageOld, imageNew);
                     setTitle("Omega Power & Knuckles Photo Filter | " + file.getAbsolutePath());
                     atualizarFiltros();
@@ -103,7 +103,6 @@ public class UI extends javax.swing.JFrame {
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jMenuItem1.doClick();
-        spliteImage1.setDividerLocation(0.5);
         spliteImage1.invalidate();
     }
 
@@ -111,13 +110,16 @@ public class UI extends javax.swing.JFrame {
         
         BufferedImage imageOld = spliteImage1.getImageOld();
         imageOld = spliteImage1.getImageOld();
-        ProcessadorListener listener = new ProcessadorListener() {
+        ImageEffectProcessorListener listener = new ImageEffectProcessorListener() {
 
             @Override
             public void processamentoIniciado() {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        effectList1.setEnabled(false);
+                        applyedEffectsList.setEnabled(false);
+                        imagesList.setEnabled(false);
                         loading.setVisible(true);
                     }
                 });
@@ -128,6 +130,10 @@ public class UI extends javax.swing.JFrame {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        
+                        effectList1.setEnabled(true);
+                        applyedEffectsList.setEnabled(true);
+                        imagesList.setEnabled(true);
                         spliteImage1.setImages(imageOld, imageNew);
                         loading.setVisible(false);
                     }
@@ -138,8 +144,8 @@ public class UI extends javax.swing.JFrame {
         
         DefaultListModel listModel = (DefaultListModel) applyedEffectsList.getModel();
                 
-        Processador processador = new Processador(imageOld, ViewAdapter.modelToList(listModel), listener);
-        processador.processa();
+        ImageEffectProcessor processador = new ImageEffectProcessor(imageOld, ViewAdapter.modelToList(listModel), listener);
+        processador.run();
     }
     
     private void atualizarApplyedList(){
@@ -168,7 +174,7 @@ public class UI extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listaImagens = new javax.swing.JList();
+        imagesList = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         spliteImage1 = new br.univali.veiw.SpliteImage();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -236,15 +242,10 @@ public class UI extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(null);
 
-        listaImagens.setBackground(new java.awt.Color(50, 50, 50));
-        listaImagens.setForeground(new java.awt.Color(255, 255, 255));
-        listaImagens.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        listaImagens.setFixedCellWidth(150);
-        jScrollPane2.setViewportView(listaImagens);
+        imagesList.setBackground(new java.awt.Color(50, 50, 50));
+        imagesList.setForeground(new java.awt.Color(255, 255, 255));
+        imagesList.setFixedCellWidth(150);
+        jScrollPane2.setViewportView(imagesList);
 
         jPanel4.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -304,6 +305,11 @@ public class UI extends javax.swing.JFrame {
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/univali/resources/menus/salvar_lote.png"))); // NOI18N
         jMenuItem3.setText("Salvar Lote");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -342,7 +348,7 @@ public class UI extends javax.swing.JFrame {
                 for (File file1 : files) {
                     model.addElement(new ImageFile(file1.getAbsolutePath()));
                 }
-                listaImagens.setModel(model);
+                imagesList.setModel(model);
             }
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -355,7 +361,7 @@ public class UI extends javax.swing.JFrame {
         /***Magica muito loka (não mexer nesta parte do código)
         /*It's Magic, I ain't explain shit
          */
-        String ext = listaImagens.getSelectedValue().toString();
+        String ext = imagesList.getSelectedValue().toString();
         ext = ext.substring(ext.length() - 3);
         String f = file.toString()+"."+ext;
         file = new File(f);
@@ -365,6 +371,54 @@ public class UI extends javax.swing.JFrame {
             Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        DefaultListModel<File> listModel = (DefaultListModel<File>) imagesList.getModel();
+        DefaultListModel model = (DefaultListModel) applyedEffectsList.getModel();
+        for(int i=0; i< listModel.size();i++){
+            
+            File file = listModel.getElementAt(i);
+            ImageEffectProcessorListener listener = new ImageEffectProcessorListener() {
+                @Override
+                public void processamentoIniciado() {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            
+                            loading.setVisible(true);
+                        }
+                    });
+                }
+                @Override
+                public void processamentoFinalizado(BufferedImage imageOld, BufferedImage imageNew) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            String ext = file.getAbsolutePath();
+                            ext = ext.substring(ext.length() - 3);
+                            try {
+                                ImageIO.write(imageNew, ext, file);
+                            } catch (IOException ex) {
+                                Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            loading.setVisible(false);
+                        }
+                    });
+                }
+
+            };
+            
+            BufferedImage bufferedImage;
+            try {
+                bufferedImage = ImageIO.read(file);
+                ImageEffectProcessor processador = new ImageEffectProcessor(bufferedImage, ViewAdapter.modelToList(model), listener);
+                processador.run();
+            } catch (IOException ex) {
+                Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -388,6 +442,7 @@ public class UI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList applyedEffectsList;
     private br.univali.veiw.EffectList effectList1;
+    private javax.swing.JList imagesList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
@@ -405,7 +460,6 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JList listaImagens;
     private br.univali.veiw.SpliteImage spliteImage1;
     // End of variables declaration//GEN-END:variables
 }

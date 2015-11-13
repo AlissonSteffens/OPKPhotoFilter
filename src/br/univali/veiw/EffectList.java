@@ -10,6 +10,7 @@ import br.univali.reflection.PackageClassesGetter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -30,15 +31,19 @@ public class EffectList extends JList<Effect>{
         try {
             Class<Effect>[] classes = PackageClassesGetter.getClasses("br.univali.effects");
             for (Class<Effect> classe : classes) {
+                
+                    Constructor<Effect> constructor;
                 try {
-                    Constructor<Effect> constructor = classe.getConstructor();
+                    constructor = classe.getConstructor();
                     Effect newInstance = constructor.newInstance();
                     defaultListModel.addElement(newInstance);
                 } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                     Logger.getLogger(EffectList.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                    
+                
             }
-        } catch (ClassNotFoundException | IOException ex) {
+        } catch (ClassNotFoundException | IOException | URISyntaxException ex) {
             Logger.getLogger(EffectList.class.getName()).log(Level.SEVERE, null, ex);
         }
         

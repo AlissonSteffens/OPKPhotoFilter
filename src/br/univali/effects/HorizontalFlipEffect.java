@@ -6,25 +6,24 @@
 package br.univali.effects;
 
 import br.univali.model.Effect;
-import com.jhlabs.image.WaterFilter;
+import com.jhlabs.image.FlipFilter;
 import java.awt.image.BufferedImage;
 
 /**
  *
  * @author Alisson
  */
-public class WaterEffect implements Effect{
+public class HorizontalFlipEffect implements Effect{
 
     @Override
     public BufferedImage apply(BufferedImage bufferedImage) {
         BufferedImage image = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType());
-        return new WaterFilter().filter(bufferedImage, image);
+        return new FlipFilter(FlipFilter.FLIP_H).filter(bufferedImage, image);
     }
 
     @Override
     public String toString() {
-        return "Water";
+        return "Horizontal Flip";
     }
     
 }
-

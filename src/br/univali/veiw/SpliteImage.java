@@ -19,7 +19,6 @@ import javax.swing.JSplitPane;
 public class SpliteImage extends JSplitPane{
     private BufferedImage imageOld;
     private BufferedImage imageNew;
-    int dividerLocation;
     
     public SpliteImage() {
         
@@ -30,7 +29,6 @@ public class SpliteImage extends JSplitPane{
         this.imageNew = imageNew;
         JPanel leftPanel = new CustomPanel("esquerda");
         JPanel rightPanel = new CustomPanel("direita");
-        dividerLocation = this.getDividerLocation();
         this.setLeftComponent(leftPanel);
         this.setRightComponent(rightPanel);
     }

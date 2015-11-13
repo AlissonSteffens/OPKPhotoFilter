@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  *
  * @author 5663296
  */
-public interface ProcessadorListener {
+public interface ImageEffectProcessorListener {
     
     void processamentoIniciado();
     void processamentoFinalizado(BufferedImage imageOld, BufferedImage imageNew);
