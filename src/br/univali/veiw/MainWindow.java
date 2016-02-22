@@ -26,6 +26,8 @@ import br.univali.model.ImageEffectProcessor;
 import br.univali.model.ImageEffectProcessorListener;
 import br.univali.veiw.listRenders.AppliedEffectsList;
 import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
@@ -98,6 +100,22 @@ public class MainWindow extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         openFolderButton.doClick();
         splitePane.getSpliteImage().invalidate();
+        
+        this.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e); //To change body of generated methods, choose Tools | Templates.
+                SwingUtilities.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        splitePane.updateState();
+                    }
+                });
+            }
+            
+        });
     }
 
     private void atualizarFiltros() {
