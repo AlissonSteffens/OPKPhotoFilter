@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.univali.veiw;
+package br.univali.veiw.listRenders;
 
 import br.univali.model.Effect;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.univali.model;
+package br.univali.veiw.listRenders;
 
 import br.univali.model.Effect;
+import br.univali.model.Effect;
 import br.univali.reflection.PackageClassesGetter;
-import br.univali.veiw.EffectListRender;
+import br.univali.veiw.listRenders.EffectListRender;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

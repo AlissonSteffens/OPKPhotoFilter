@@ -24,8 +24,10 @@ import javax.swing.event.ListSelectionEvent;
 import br.univali.model.ImageFile;
 import br.univali.model.ImageEffectProcessor;
 import br.univali.model.ImageEffectProcessorListener;
+import br.univali.veiw.listRenders.AppliedEffectsList;
 import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.SwingUtilities;
 
 /**
@@ -36,6 +38,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     Loading loading = new Loading();
     EffectComposite composit = new EffectComposite();
+    JList<Effect> appliedEffectsList = new AppliedEffectsList();
+    
     /**
      * Creates new form UI
      */
@@ -44,7 +48,8 @@ public class MainWindow extends javax.swing.JFrame {
         setBackground(new Color(38, 38, 38));
         setGlassPane(loading);
         DefaultListModel listModel = new DefaultListModel();
-        applyedEffectsList.setModel(listModel);
+        jPanel1.add(appliedEffectsList);
+        appliedEffectsList.setModel(listModel);
         BufferedImage imageOld;
         BufferedImage imageNew;
 //        splitePane2.getSpliteImage().setDividerLocation(splitePane2.getSpliteImage().getWidth() / 2);
@@ -57,11 +62,11 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        applyedEffectsList.addListSelectionListener((ListSelectionEvent e) -> {
-            if (applyedEffectsList.getSelectedValue() != null) {
-                composit.removeEffect(applyedEffectsList.getSelectedIndex());
-                atualizarApplyedList();
-                applyedEffectsList.clearSelection();
+        appliedEffectsList.addListSelectionListener((ListSelectionEvent e) -> {
+            if (appliedEffectsList.getSelectedValue() != null) {
+                composit.removeEffect(appliedEffectsList.getSelectedIndex());
+                atualizarAppliedList();
+                appliedEffectsList.clearSelection();
                 atualizarFiltros();
             }
         });
@@ -69,7 +74,7 @@ public class MainWindow extends javax.swing.JFrame {
         effectList1.addListSelectionListener((ListSelectionEvent e) -> {
             if (effectList1.getSelectedValue() != null) {
                 composit.addEffect(effectList1.getSelectedValue());
-                atualizarApplyedList();
+                atualizarAppliedList();
                 atualizarFiltros();
                 effectList1.clearSelection();
             }
@@ -105,7 +110,7 @@ public class MainWindow extends javax.swing.JFrame {
             public void processamentoIniciado() {
                 SwingUtilities.invokeLater(() -> {
                     effectList1.setEnabled(false);
-                    applyedEffectsList.setEnabled(false);
+                    appliedEffectsList.setEnabled(false);
                     imagesList.setEnabled(false);
                     loading.setVisible(true);
                 });
@@ -115,7 +120,7 @@ public class MainWindow extends javax.swing.JFrame {
             public void processamentoFinalizado(BufferedImage imageOld, BufferedImage imageNew) {
                 SwingUtilities.invokeLater(() -> {
                     effectList1.setEnabled(true);
-                    applyedEffectsList.setEnabled(true);
+                    appliedEffectsList.setEnabled(true);
                     imagesList.setEnabled(true);
                     splitePane.getSpliteImage().setImages(imageOld, imageNew);
                     loading.setVisible(false);
@@ -125,19 +130,20 @@ public class MainWindow extends javax.swing.JFrame {
 
         };
         
-        DefaultListModel listModel = (DefaultListModel) applyedEffectsList.getModel();
+        DefaultListModel listModel = (DefaultListModel) appliedEffectsList.getModel();
                 
         ImageEffectProcessor processador = new ImageEffectProcessor(imageOld, ViewAdapter.modelToList(listModel), listener);
         processador.run();
     }
     
-    private void atualizarApplyedList(){
+    private void atualizarAppliedList(){
         DefaultListModel listModel = new DefaultListModel();
         for(int i=0; i<composit.numberOfEffects();i++){
             Effect effect = composit.get(i);
             listModel.addElement(effect);
         }
-        applyedEffectsList.setModel(listModel);
+        appliedEffectsList.setModel(listModel);
+        
     }
     
     /**
@@ -150,10 +156,9 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        jSplitPane2 = new javax.swing.JSplitPane();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        applyedEffectsList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -161,7 +166,7 @@ public class MainWindow extends javax.swing.JFrame {
         imagesList = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        effectList1 = new br.univali.model.EffectList();
+        effectList1 = new br.univali.veiw.listRenders.EffectList();
         splitePane = new br.univali.veiw.splite.SplitePane();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -186,20 +191,6 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(50, 50, 50));
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(75, 75, 75), 2, true), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
         jPanel1.setLayout(new java.awt.BorderLayout());
-
-        jScrollPane1.setBorder(null);
-
-        applyedEffectsList.setBackground(new java.awt.Color(50, 50, 50));
-        applyedEffectsList.setForeground(new java.awt.Color(255, 255, 255));
-        applyedEffectsList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        applyedEffectsList.setFixedCellWidth(100);
-        jScrollPane1.setViewportView(applyedEffectsList);
-
-        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jLabel1.setBackground(new java.awt.Color(38, 38, 38));
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -235,7 +226,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jSplitPane1.setLeftComponent(jPanel4);
 
-        jPanel2.add(jSplitPane1, java.awt.BorderLayout.WEST);
+        jSplitPane2.setLeftComponent(jSplitPane1);
 
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.BorderLayout(0, 10));
@@ -254,7 +245,9 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel3.add(jScrollPane4, java.awt.BorderLayout.SOUTH);
         jPanel3.add(splitePane, java.awt.BorderLayout.CENTER);
 
-        jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
+        jSplitPane2.setRightComponent(jPanel3);
+
+        jPanel2.add(jSplitPane2, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2);
 
@@ -353,7 +346,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void saveImagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImagesButtonActionPerformed
         DefaultListModel<File> listModel = (DefaultListModel<File>) imagesList.getModel();
-        DefaultListModel model = (DefaultListModel) applyedEffectsList.getModel();
+        DefaultListModel model = (DefaultListModel) appliedEffectsList.getModel();
         for(int i=0; i< listModel.size();i++){
             
             File file = listModel.getElementAt(i);
@@ -419,8 +412,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList applyedEffectsList;
-    private br.univali.model.EffectList effectList1;
+    private br.univali.veiw.listRenders.EffectList effectList1;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JList imagesList;
     private javax.swing.JLabel jLabel1;
@@ -431,11 +423,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JMenuItem openFolderButton;
     private javax.swing.JMenuItem saveImageButton;
     private javax.swing.JMenuItem saveImagesButton;
